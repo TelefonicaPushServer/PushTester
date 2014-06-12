@@ -1,7 +1,3 @@
-  <!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
 <html>
   <head>
@@ -24,7 +20,7 @@ and open the template in the editor.
     <link href="css/style/icons.css" rel="stylesheet" type="text/css">
     <link href="css/style/lists.css" rel="stylesheet" type="text/css">
     <link href="css/style/status.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+    <script defer async type="text/javascript" src="js/aux.js"></script>
     <script defer async type="text/javascript" src="js/push.js"></script>
     <script defer async type="text/javascript" src="js/index.js"></script>
   </head>
@@ -32,103 +28,48 @@ and open the template in the editor.
     <section role="region">
       <header>
         <menu type="toolbar">
-        <!--  <a href="#"><span class="icon icon-user">edit</span></a>-->
           <a href="#" id="pushbtn"><span class="icon icon-deviceinfo">push</span></a>
         </menu>
         <h1>PushTester</h1>
       </header>
       <header>
-        <div id="AppToken">Mi AppToken: </div>
+        <div>Endpoint: <span id="endpointURL"></span></div>
       </header>
     </section>
 
     <section data-type="list">
-  <header>INFO</header>
-  <ul>
-    <li>
-      <a id="lastnotif">
-        <p>Las notifications received</p>
-        <div id="lastversion_D">date + hour</div>
-      </a>
-    </li>
-    <li>
-      <a>
-        <p>Last version received</p>
-        <p id="lastversion_V">int version</p>
-      </a>
-    </li>
-    <li>
-      <a>
-        <p>Next scheduled check</p>
-        <p>date + hour (see alarms API)</p>
-      </a>
-    </li>
-  </ul>
-  <header>STATUS</header>
-  <ul>
-    <li>
-    <canvas id="pns_status" width="200" height="150"></canvas>
-  </ul>
-</section>
-
-<section>
-<!-- <canvas id="pns_status" width="210" height="200"></canvas> -->
-</section>
-<!-- <section role="status">
-  <p>TELEFONICA PNS status is <strong>OK</strong></p>
-</section>
- -->    
-<!--     <div id="mozAPI">
-      <h2>hello tests</h2>
-      <button onclick="navigator.push.requestHello()">hello()</button>
-      <div id="uaid">(uaid will be shown here once you click on "register" (but wait 4 seconds before clicking on register)</div>
-      <hr>
-      <h2>register tests</h2>
-      <button onclick="register( { channels: '1234' })">register()</button>
-      <div id="endpointURL">(endpoint will be shown here)</div>
-      <br>
-      <hr>
-      <h2>unregister tests</h2>
-      <button onclick="navigator.push.unregister( { channels: '1234' })">unregister()</button>
-      <hr>
-      <h2>Send a notification to this app</h2>
-      <input id="channelVersion" value="1" />
-      <button onclick="updateVersion($('endpointURL').innerHTML,$('channelVersion').value)">updateVersion()</button>
-      <div id="updateversion-msg">(AS petition response will be put here)</div>
-      <div id="asyncmsg">(message will shown here if everything is correct)</div>
-    </div> -->
-    <!-- <section data-position="current" id="main">
-      <section role="region" id="header">
-        <header>
-          <menu type="toolbar">
-            <a href="#" id="hello">Hello</a>
-            <a href="#" id="register">Register</a>
-            <a href="#" id="unregister">Unregister</a>
-            <a href="#" id="notify">Notify</a>
-          </menu>
-        </header>
-      </section>
-    </section> -->
-
-<!--     <div id="extAPI">
-    </div>
-    <div id="mgntAPI" style="float: right; width: 300px; border: 1px solid black; position: relative; top: 0">
-      <h2>Push library setup</h2>
-      <input id="setup_debug" type="checkbox" onclick="changeSetup('debug',$('setup_debug').checked)" /> Debug enabled<br />
-      NS Server host <input id="setup_host" onchange="changeSetup('host',$('setup_host').value)" /><br />
-      NS Server port <input id="setup_port" onchange="changeSetup('port',$('setup_port').value)" /><br />
-      <input id="setup_ssl" type="checkbox" onclick="changeSetup('ssl',$('setup_ssl').checked)" /> SSL enabled<br />
-      Keepalive <input id="setup_ka" onchange="changeSetup('keepalive',$('setup_ka').value)" /> msec<br />
-      <input id="setup_wu_enabled" type="checkbox" onclick="changeSetup('wakeup_enabled',$('setup_wu_enabled').checked)" /> Wakeup enabled<br />
-      Wakeup host <input id="setup_wu_host" onchange="changeSetup('wakeup_host',$('setup_wu_host').value)" /><br />
-      Wakeup alternative host <input id="setup_wu_alt_host" onchange="changeSetup('wakeup_alt_host',$('setup_wu_alt_host').value)" /><br />
-      Wakeup port <input id="setup_wu_port" onchange="changeSetup('wakeup_port',$('setup_wu_port').value)" /><br />
-      Wakeup alternative port <input id="setup_wu_alt_port" onchange="changeSetup('wakeup_alt_port',$('setup_wu_alt_port').value)" /><br />
-      Wakeup protocol <input id="setup_wu_proto" onchange="changeSetup('wakeup_protocol',$('setup_wu_proto').value)" /><br />
-      Wakeup mcc <input id="setup_wu_mcc" onchange="changeSetup('wakeup_mcc',$('setup_wu_mcc').value)" /><br />
-      Wakeup alternative mcc <input id="setup_wu_alt_mcc" onchange="changeSetup('wakeup_alt_mcc',$('setup_wu_alt_mcc').value)" /><br />
-      Wakeup mnc <input id="setup_wu_mnc" onchange="changeSetup('wakeup_mnc',$('setup_wu_mnc').value)" /><br />
-      Wakeup alternative mnc <input id="setup_wu_alt_mnc" onchange="changeSetup('wakeup_alt_mnc',$('setup_wu_alt_mnc').value)" /><br />
-    </div> -->
+      <header>INFO</header>
+      <ul>
+        <li>
+          <a id="lastnotif">
+            <p>Last notification received</p>
+            <div id="lastNotificationRecvTime"></div>
+          </a>
+        </li>
+        <li>
+          <a>
+            <p>Last version received</p>
+            <p id="lastVersionRecv"></p>
+          </a>
+        </li>
+        <li>
+          <a>
+            <p>Last AS response</p>
+            <p id="lastASResponse"></p>
+          </a>
+        </li>
+        <li>
+          <a>
+            <p>Next scheduled check</p>
+            <p id="nextScheduledCheck"></p>
+          </a>
+        </li>
+      </ul>
+      <header>STATUS</header>
+      <ul>
+        <li>
+        <canvas id="pns_status" width="200" height="150"></canvas>
+      </ul>
+    </section>
   </body>
 </html>
