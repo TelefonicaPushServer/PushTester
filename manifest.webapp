@@ -5,8 +5,8 @@
   "launch_path": "/index.html",
   "type": "privileged",
   "developer": {
-    "name": "Carlos Gómez Caínzos,Mario Pierre-Louis Marín",
-    "url": "https://github.com/carlos-gomez/PushTester"
+    "name": "Carlos Gómez Caínzos, Mario Pierre-Louis Marín, Fernando Rodriguez Sela",
+    "url": "https://github.com/TelefonicaPushServer/PushTester"
   },
   "icons": {
 
@@ -16,10 +16,12 @@
   "permissions": {
     "push": {},
     "desktop-notification": {},
-    "systemXHR": {}
+    "systemXHR": {},
+    "alarms": {}
   },
   "messages": [
     { "push": "/index.html" },
-    { "push-register": "/index.html" }
+    { "push-register": "/index.html" },
+    { "alarm": "/index.html" }
   ]
 }

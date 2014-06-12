@@ -86,4 +86,3 @@ function fill_canvas(id, color, string) {
   ctx.font = '30px FiraSans';
   ctx.fillText(string, 77, 45);
 }
-
