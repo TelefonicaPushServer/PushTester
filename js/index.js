@@ -8,6 +8,9 @@ var CANVAS_STR_WR = 'WARNING';
 
 //Connection Status
 window.onload = function() {
+  PushAlarm(function(alarmMsg) {
+    updateNextScheduledCheck(alarmMsg);
+  });
   var online = window.navigator.onLine;
   if (!online) {
     fatal('Conecte el dispositivo a una red con datos');
@@ -17,15 +20,7 @@ window.onload = function() {
   Pusher.register(handleEvents);
 };
 
-document.getElementById('pushbtn').addEventListener('click', function() {
-  Pusher.sendPush(function(res, error) {
-    if (error) {
-      updateASResponse(error);
-    } else {
-      updateASResponse('AS response = ' + JSON.stringify(res));
-    }    
-  });
-});
+document.getElementById('pushbtn').addEventListener('click', sendPush);
 
 function handleEvents(evt, data) {
   debug('handleEvents: ' + evt + ' - ' + JSON.stringify(data));
@@ -51,6 +46,20 @@ function handleEvents(evt, data) {
     case 'push-register':
       break;
   }
+}
+
+function sendPush(alarm) {
+  var prefix = "";
+  if (alarm) {
+    prefix = "Alarm: ";
+  }
+  Pusher.sendPush(function(res, error) {
+    if (error) {
+      updateASResponse(prefix + error);
+    } else {
+      updateASResponse(prefix + 'AS response = ' + JSON.stringify(res));
+    }
+  });
 }
 
 // UI Management
