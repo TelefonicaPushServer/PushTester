@@ -3,6 +3,7 @@
   "name": "PushTester",
   "description": "App for test push server",
   "launch_path": "/index.html",
+  "type": "privileged",
   "developer": {
     "name": "Carlos Gómez Caínzos,Mario Pierre-Louis Marín",
     "url": "https://github.com/carlos-gomez/PushTester"
@@ -14,7 +15,8 @@
   "default_locale": "en",
   "permissions": {
     "push": {},
-    "desktop-notification": {}
+    "desktop-notification": {},
+    "systemXHR": {}
   },
   "messages": [
     { "push": "/index.html" },
