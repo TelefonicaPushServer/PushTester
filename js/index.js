@@ -8,8 +8,8 @@ var CANVAS_STR_WR = 'WARNING';
 
 //Connection Status
 window.onload = function() {
-  PushAlarm(function(alarmMsg) {
-    updateNextScheduledCheck(alarmMsg);
+  PushAlarm(function(alarmData) {
+    updateNextScheduledCheck(alarmData.time);
   });
   var online = window.navigator.onLine;
   if (!online) {
@@ -20,7 +20,9 @@ window.onload = function() {
   Pusher.register(handleEvents);
 };
 
-document.getElementById('pushbtn').addEventListener('click', sendPush);
+document.getElementById('pushbtn').addEventListener('click', function() {
+  sendPush(null);
+});
 
 function handleEvents(evt, data) {
   debug('handleEvents: ' + evt + ' - ' + JSON.stringify(data));
@@ -48,12 +50,12 @@ function handleEvents(evt, data) {
   }
 }
 
-function sendPush(alarm) {
-  var prefix = "";
-  if (alarm) {
-    prefix = "Alarm: ";
-  }
+function sendPush(AlarmData) {
   Pusher.sendPush(function(res, error) {
+    var prefix = "";
+    if (AlarmData) {
+      prefix = "Alarm: ";
+    }
     if (error) {
       updateASResponse(prefix + error);
     } else {

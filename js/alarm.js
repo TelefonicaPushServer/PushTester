@@ -12,7 +12,7 @@ function PushAlarm(callback) {
       var nextAlarmTime  = new Date((new Date()).getTime() + 60000);
 
       // Esta es la información a pasar a la alarma
-      var data    = {
+      var data = {
         time: nextAlarmTime
       }
 
@@ -21,7 +21,7 @@ function PushAlarm(callback) {
 
       request.onsuccess = function () {
         debug("[PushAlarm] La alarma ha sido programada");
-        callback(nextAlarmTime);
+        callback(data);
       };
 
       request.onerror = function () {
