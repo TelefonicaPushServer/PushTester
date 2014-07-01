@@ -18,6 +18,8 @@ window.onload = function() {
 
   debug('Conectado: ' + online);
   Pusher.register(handleEvents);
+
+  document.addEventListener('pushmessagenotreceived', handleEvents, false);
 };
 
 document.getElementById('pushbtn').addEventListener('click', function() {
@@ -36,6 +38,7 @@ function handleEvents(evt, data) {
     case 'error':
       debug('Error registering endpoint --> ' + JSON.stringify(data));
       beep('KO', JSON.stringify(data));
+      fill_canvas('pns_status', CANVAS_KO, CANVAS_STR_KO);
       break;
 
     case 'push':
@@ -43,6 +46,12 @@ function handleEvents(evt, data) {
         data.version);
       updateLastNotificationReceivedTime();
       updateVersion(data.version);
+      break;
+
+    case 'pushmessagenotreceived':
+      debug('Error no push response received ! - ' + data.detail.version);
+      beep('KO', JSON.stringify(data));
+      fill_canvas('pns_status', CANVAS_WR, CANVAS_STR_WR);
       break;
 
     case 'push-register':
@@ -58,6 +67,8 @@ function sendPush(AlarmData) {
     }
     if (error) {
       updateASResponse(prefix + error);
+      beep('KO', JSON.stringify(data));
+      fill_canvas('pns_status', CANVAS_WR, CANVAS_STR_WR);
     } else {
       updateASResponse(prefix + 'AS response = ' + JSON.stringify(res));
     }

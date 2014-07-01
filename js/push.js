@@ -2,6 +2,27 @@ var Pusher = (function() {
   debug('Initializing PushTester');
   init();
 
+  var errorAlarmID = null;
+  var msecsToRecvResponse = 5000;
+
+  function clearAlarm() {
+    if (errorAlarmID) {
+      clearTimeout(errorAlarmID);
+      errorAlarmID = null;
+    }
+  }
+
+  function setAlarm(version) {
+    clearAlarm();
+    errorAlarmID = setTimeout(function() {
+      errorAlarmID = null;
+      var event = new CustomEvent('pushmessagenotreceived', {
+        detail: { 'version': version }
+      });
+      window.dispatchEvent(event);
+    }, msecsToRecvResponse);
+  }
+
   function init() {
     //Si no se soportan notificaciones push
     if (!navigator.push) {
@@ -46,7 +67,7 @@ var Pusher = (function() {
     debug('registerPushSystemMessages');
     window.navigator.mozSetMessageHandler('push', function(evt) {
       debug('Push message received for endpoint: ' + evt.pushEndpoint);
-
+      clearAlarm();
       if (isValidEndpoint(evt.pushEndpoint)) {
         debug('Great, endpoint valid !');
         callback('push', evt);
@@ -79,6 +100,7 @@ var Pusher = (function() {
     var version = new Date().getTime();
     debug('Sending notification to ' + getEndpoint() + ' version: ' + version);
     sendMessageToAL(getEndpoint(), version, callback);
+    setAlarm(version);
   }
 
   //Enviar nueva versión al AL de PNS.
