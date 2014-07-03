@@ -19,7 +19,11 @@ window.onload = function() {
   debug('Conectado: ' + online);
   Pusher.register(handleEvents);
 
-  document.addEventListener('pushmessagenotreceived', handleEvents, false);
+  window.addEventListener('pushmessagenotreceived', function(data) {
+    debug('Error no push response received ! - ' + data.detail.version);
+    beep('KO', JSON.stringify(data));
+    fill_canvas('pns_status', CANVAS_WR, CANVAS_STR_WR);
+  }, false);
 };
 
 document.getElementById('pushbtn').addEventListener('click', function() {
@@ -46,12 +50,6 @@ function handleEvents(evt, data) {
         data.version);
       updateLastNotificationReceivedTime();
       updateVersion(data.version);
-      break;
-
-    case 'pushmessagenotreceived':
-      debug('Error no push response received ! - ' + data.detail.version);
-      beep('KO', JSON.stringify(data));
-      fill_canvas('pns_status', CANVAS_WR, CANVAS_STR_WR);
       break;
 
     case 'push-register':
