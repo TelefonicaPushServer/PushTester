@@ -8,8 +8,8 @@ function PushAlarm(callback) {
         navigator.mozAlarms.remove(this.result[i].id);
       }
 
-      // Esta es la fecha a programar la alarma en 1 minuto
-      var nextAlarmTime  = new Date((new Date()).getTime() + 60000);
+      // Esta es la fecha a programar la alarma en 5 minutos
+      var nextAlarmTime  = new Date((new Date()).getTime() + 300000);
 
       // Esta es la información a pasar a la alarma
       var data = {

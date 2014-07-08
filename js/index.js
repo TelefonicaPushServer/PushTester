@@ -47,11 +47,8 @@ function handleEvents(evt, data) {
       break;
 
     case 'push':
-      /*
-        Removed on 20140708. do not beep on new version 
-       */
-      /*showNotification('PushTester new version', 'version = ' +
-        data.version);*/
+      showNotification('PushTester new version', 'version = ' +
+        data.version);
       updateLastNotificationReceivedTime();
       updateVersion(data.version);
       fill_canvas('pns_status', CANVAS_OK, CANVAS_STR_OK);
