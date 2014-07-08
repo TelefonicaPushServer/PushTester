@@ -106,7 +106,7 @@ var Pusher = (function() {
   //Enviar nueva versión al AL de PNS.
   function sendMessageToAL(URL, version, callback) {
     debug('XHR to URL: ' + URL + ' Version: ' + version);
-    var oReq = new XMLHttpRequest();
+    var oReq = new XMLHttpRequest({mozSystem:true});
 
     oReq.onload = function() {
       callback(this.responseText);
@@ -122,5 +122,5 @@ var Pusher = (function() {
   return {
     register: register,
     sendPush: sendPush
-  }
+  };
 })();

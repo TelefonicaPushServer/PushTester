@@ -37,6 +37,7 @@ function handleEvents(evt, data) {
       playBeep();
       updateEndpoint(data);
       fill_canvas('pns_status', CANVAS_OK, CANVAS_STR_OK);
+      window.clearInterval(window.beepingInterval);
       break;
 
     case 'error':
@@ -46,10 +47,15 @@ function handleEvents(evt, data) {
       break;
 
     case 'push':
-      showNotification('PushTester new version', 'version = ' +
-        data.version);
+      /*
+        Removed on 20140708. do not beep on new version 
+       */
+      /*showNotification('PushTester new version', 'version = ' +
+        data.version);*/
       updateLastNotificationReceivedTime();
       updateVersion(data.version);
+      fill_canvas('pns_status', CANVAS_OK, CANVAS_STR_OK);
+      window.clearInterval(window.beepingInterval);
       break;
 
     case 'push-register':
@@ -63,7 +69,14 @@ function sendPush(AlarmData) {
     if (AlarmData) {
       prefix = "Alarm: ";
     }
-    if (error) {
+
+    // Is trusted is fired when is triggered by a script, instead of a user.
+    // This means that is fired when the alarm is fired.
+    // @see https://developer.mozilla.org/en-US/docs/Web/API/Event#Properties
+    // event.isTrusted
+    if (error && error.isTrusted === false) {
+      updateASResponse(prefix + 'AS response = ' + JSON.stringify(res));
+    } else if (error) {
       updateASResponse(prefix + error);
       beep('KO', JSON.stringify(data));
       fill_canvas('pns_status', CANVAS_WR, CANVAS_STR_WR);

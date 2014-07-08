@@ -1,3 +1,4 @@
+var beepingInterval;
 
 function playBeep(code) {
   var tonePlayer = new Audio();
@@ -15,18 +16,36 @@ function playBeep(code) {
   tonePlayer.play();
 }
 
+function createInterval(beepId) {
+  // Clear interval if we have a previous one
+  if (beepingInterval) {
+    clearInterval(beepingInterval);
+  }
+  beepingInterval = setInterval(function() {
+    playBeep(beepId);
+  }, 7000);
+  var button = document.getElementById('disableAlarm');
+  button.classList.remove('hidden');
+  button.addEventListener('click', function() {
+    clearInterval(beepingInterval);
+    button.classList.add('hidden');
+  });
+}
+
 function beep(severity, msj) {
   switch (severity) {
     case 'KO':
       fill_canvas('pns_status', CANVAS_KO, CANVAS_STR_KO);
       playBeep(2);
-      alert('Algo salió mal :( ' + '\r' + msj);
+      //alert('Algo salió mal :( ' + '\r' + msj);
+      createInterval(2);
       break;
 
     case 'WR':
       fill_canvas('pns_status', CANVAS_WR, CANVAS_STR_WR);
       playBeep();
-      alert('Be carefully' + '\r' + msj);
+      //alert('Be carefully' + '\r' + msj);
+      createInterval();
       break;
   }
 }
