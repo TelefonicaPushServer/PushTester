@@ -41,14 +41,15 @@ function handleEvents(evt, data) {
       break;
 
     case 'error':
+      showNotification('PushTester error registering endpoint',
+        JSON.stringify(data));
       debug('Error registering endpoint --> ' + JSON.stringify(data));
       beep('KO', JSON.stringify(data));
       fill_canvas('pns_status', CANVAS_KO, CANVAS_STR_KO);
       break;
 
     case 'push':
-      showNotification('PushTester new version', 'version = ' +
-        data.version);
+      debug('PushTester new version', 'version = ' + data.version);
       updateLastNotificationReceivedTime();
       updateVersion(data.version);
       fill_canvas('pns_status', CANVAS_OK, CANVAS_STR_OK);
