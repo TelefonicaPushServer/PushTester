@@ -6,6 +6,8 @@ var CANVAS_STR_OK = 'OK';
 var CANVAS_STR_KO = 'CRITICAL';
 var CANVAS_STR_WR = 'WARNING';
 
+var notifyOnReceive = false;
+
 //Connection Status
 window.onload = function() {
   PushAlarm(function(alarmData) {
@@ -49,6 +51,10 @@ function handleEvents(evt, data) {
       break;
 
     case 'push':
+      if (notifyOnReceive) {
+        notifyOnReceive = false;
+        showNotification('PushTester new version', 'version = ' + data.version);
+      }
       debug('PushTester new version', 'version = ' + data.version);
       updateLastNotificationReceivedTime();
       updateVersion(data.version);
@@ -66,6 +72,8 @@ function sendPush(AlarmData) {
     var prefix = "";
     if (AlarmData) {
       prefix = "Alarm: ";
+    } else {
+      notifyOnReceive = true;
     }
 
     // Is trusted is fired when is triggered by a script, instead of a user.
